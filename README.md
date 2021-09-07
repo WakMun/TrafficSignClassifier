@@ -95,6 +95,7 @@ So each individual image was reshaped to 32x32x1 to be in the valid format for C
 Here ares some example of a images before and after preprocessing.
 
 ![alt text][image3]:
+
 ![alt text][image2]:
 
 
@@ -103,21 +104,26 @@ Here ares some example of a images before and after preprocessing.
 
 My final model consisted of the following layers:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+| Layer                      	| Input         	| Output   	| Description                                                    	|
+|----------------------------	|---------------	|----------	|----------------------------------------------------------------	|
+| Input                      	| 32x32x1       	| 0.0      	| Input normalized image in grayscale                            	|
+| Convolutional Layer 1      	| 32x32x1       	| 28x28x16 	| Using a convolution on 5x5 with stride: 1x1 and padding: valid 	|
+| Activation Layer (ReLU)    	| 28x28x16      	| 28x28x16 	| Activation using rectified linear unit                         	|
+| Max Pooling layer          	| 28x28x16      	| 14x14x16 	| Using kernel size: 2x2, stride: 2x2 and padding: valid         	|
+| Convolutional Layer 2      	| 14x14x16      	| 10x10x64 	| Using a convolution on 5x5 with stride: 1x1 and padding: valid 	|
+| Activation Layer (ReLU)    	| 10x10x64      	| 10x10x64 	| Activation layer                                               	|
+| Max Pooling Layer          	| 10x10x64      	| 5x5x64   	| Using kernel size: 2x2, stride: 2x2 and padding: valid         	|
+| Flat Fully Connected Layer 	| 5x5x64 = 1600 	| 240      	| Fully connected layer for consolidating the found features     	|
+| Activation Layer (ReLU)    	| 240           	| 240      	| Activation layer                                               	|
+| Dropout                    	| 240           	| 240      	| keep probability = 0.6                                         	|
+| Flat Fully Connected Layer 	| 240           	| 84       	| Fully connected layer for consolidation                        	|
+| Activation Layer (ReLU)    	| 84            	| 84       	| Activation layer                                               	|
+| Dropout                    	| 84            	| 84       	| Keep probability = 0.6                                         	|
+| Output. Fully Connected    	| 84            	| 43       	| Output layer for one hot encoded output                        	|											|
  
 
 
-#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Training the Model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
 To train the model, I used an ....
 
@@ -145,10 +151,17 @@ If a well known architecture was chosen:
 
 #### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web:
+I selected some signs out of these two videos. To reduce the bias of selection I selected first 6 signs that matched with our training classes out of each video.
+* https://www.youtube.com/watch?v=QE03kKtJeWs
+* https://www.youtube.com/watch?v=Hx44jrWHaUE
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+
+![alt text][image8]: Road signs extracted out of youtube videos.
+
+Thier classification results are as follows. Out of 12 signs, 11 were classified correctly ie and accuracy of nearly 91%
+
+
+![alt text][image7]: Images classification by the developed system
 
 The first image might be difficult to classify because ...
 
