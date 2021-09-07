@@ -2,8 +2,6 @@
 
 ## Writeup
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Build a Traffic Sign Recognition Project**
@@ -11,11 +9,20 @@
 The goal of the project was to design, build and train a model based on convolutional 
 neural networks (CNN) which is able to classify german road signs.
 
-The code for this project is provided in this [Jupyter notebook] (https://github.com/WakMun/TrafficSignClassifier/blob/master/Traffic_Sign_Classifier.ipynb). The data that used for training the network was provided by Udacity and is also available [here] (http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset).
+The code for this project is provided in this [Jupyter notebook](https://github.com/WakMun/TrafficSignClassifier/blob/master/Traffic_Sign_Classifier.ipynb). The data that is used for training the network was provided by Udacity and is also available [here](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset), however is not part of this repository. At the end of training the accuracy values were as follows:
 
-I achieved this using a modernized version of [LeNet architecture](http://yann.lecun.com/exdb/lenet/) that was designed by Yann Lecun in last century. Already without any optimizations, this archtecture provides a pretty good basis for image classifications tasks with accuracy above 85%. With the addition of modern techniques such as regularization and RELU activations as well as preprocessing steps, this archtecture easily achieves 95% accuracy.   
+| Data Set			        |     Accuracy	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| Train      		| 1.00   									| 
+| Test     			| 0.955 									|
+| Validation					| 0.981											|
 
-/ Summary of the steps of this project is as follows. 
+
+
+
+I achieved this using a modernized version of [LeNet-5 architecture](http://yann.lecun.com/exdb/lenet/) that was published by Yann Lecun in 1998. Already without any optimizations, this archtecture provides a pretty good basis for image classifications tasks with accuracy above 85%. With the addition of modern techniques such as regularization and RELU activations as well as preprocessing steps, this archtecture comfartably achieves higher than 95% accuracy on the provided data set.   
+
+Summary of the steps of this project is as follows. 
 * Load the data set (see below for links to the project data set)
 * Explore, summarize and visualize the data set
 * Design, train and test a model architecture
@@ -36,11 +43,11 @@ The details about each of these are provided below.
 [image6]: ./outImages/predicHistoWeb.jpg "Predictions for Images from Web"
 [image7]: ./outImages/webClassification.jpg "Classification of Web Images"
 [image8]: ./outImages/webImages.jpg "Images Selected from Web"
-
+[image9]: https://wikimedia.org/api/rest_v1/media/math/render/svg/5c591a0eeba163a12f69f937adbae5886d6273db
 
 ### Data Set Summary & Exploration
 
-#### 1. Provide a basic summary of the data set. In the code, the analysis should be done using python, numpy and/or pandas methods rather than hardcoding results manually.
+#### 1. Data Set in Numbers 
 
 Using simple python's builtin functions I find the summary statistics as follows:
 
@@ -50,10 +57,7 @@ Using simple python's builtin functions I find the summary statistics as follows
 * Image data shape = (32, 32, 3)
 * Number of classes = 43
 
-To get a feeling about the data, I plot 15 random images from each class as follows. It seems that data is clean and the provided images cleanly match up with their respective classes.
-![alt text][image5]
-
-#### 2. Include an exploratory visualization of the dataset.
+#### 2. Exploratory visualization of the dataset
 I explore the distribution of data in varous classes using a histogram chart where the frequency of each class is mapped.
 ![alt text][image4]
 
@@ -61,33 +65,38 @@ Classes are numbered from 0 to 42 (end points included). It is clear from the fi
 
 This topic is further discussed below, along with the accuracy of the model.
 
+#### 3. Classes Visualization
+To get a feeling about the data, I plot 15 random images from each class as follows. It seems that data is clean and the provided images cleanly match up with their respective classes.
+![alt text][image5]
 
 ### Design and Test a Model Architecture
 
-#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
+#### 1. Preprocessing
 
 As a first step, I decided to convert the images to grayscale. Although color in the image can provide useful information but various changing light conditions transform the color in the images so drastically that it does not seem a good idea to include it in the input. Also, it is helpful to reduce the inputs to minimum possible necessary features so that all "decisions" are based on features that really matter. Adding superfluous information like color can lead to the [curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality). 
 
-In the second step I normalize the data using 
- 
-In the third step I redim
+In the second step, I normalize the data using [mean zero scaling](https://en.wikipedia.org/wiki/Feature_scaling). The formula for this is given as follows:
+
+![alt text][image9]
+
+The benefits of normalization for machine learning are [well established](https://arxiv.org/abs/1502.03167). During the exploration phase a couple of other normalization techniques were also evaluated. These did not help much in the overall accuracy, but thier effect on the conviction of the correct prediction was quite significant. Ie for correct predictions, the probability was concentrated in the correct choice, whereas, for incorrect choices the resultant probabilities were spread over a number of choices.
+
+Following table provides an overview of different techniques where I used the first one due to the zero mean and the range being within -1 to 1. 
+
+| Technique 	| Max            	| Mean            	| Min             	| Standard Deviation 	|
+|-----------	|----------------	|-----------------	|-----------------	|--------------------	|
+| Mean Zero 	| 0.686836355063 	| 0.0             	| -0.313163644937 	| 0.262438084895     	|
+| MinMax    	| 1.0            	| -0.324513108538 	| -1.0            	| 0.586109319525     	|
+| z score   	| 2.61713674422  	| 0.0             	| -1.19328581849  	| 1.0                	|
+
+As final part of preprocessing, the depth of dimensions of data were restored to four. One dimension was lost during grayscale conversion ie 32x32x3 to 32x32. 
+So each individual image was reshaped to 32x32x1 to be in the valid format for CNN model.
 
 Here ares some example of a images before and after preprocessing.
 
 ![alt text][image3]:
 ![alt text][image2]:
 
-As a last step, I normalized the image data because ...
-
-I decided to generate additional data because ... 
-
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
 
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
