@@ -136,7 +136,7 @@ I started with model that we developed in the course of quiz exercises during th
 
 ![alt text][image1]:
 
-I changed the depth of the input layer from 10 to 16 and right away I was able to achieve the desired accuracy threshold. So i didnt change the other parameters anymore except changing the Epochs to 40 and adding a couple of dropout layers. As can be seen in the figure the accuracy on validation quickly crosses the desired threshold. It is clear that LeNet architecture is good starting point for visual recognition tasks of low complexity if combined with appropriate preprocessing and normalization techniques. This is also, in my opinion, one of the reasons why LeNet does so well here is that it is a of low complexity task which suits perfectly with not-so-deep architecture of LeNet. Also, advantageous here is the use of modern techniques such as using ReLU for activations and dropout regularization that mask some of the shorcomings of original LeNet 
+I changed the depth of the input layer from 10 to 16 and right away I was able to achieve the desired accuracy threshold. So i didnt change the other parameters anymore except changing the Epochs to 40 and adding a couple of dropout layers. As can be seen in the figure the accuracy on validation quickly crosses the desired threshold. It is clear that LeNet architecture is good starting point for visual recognition tasks of low complexity if combined with appropriate preprocessing and normalization techniques. This is also, in my opinion, one of the reasons why LeNet does so well here is that it is a of low complexity task which suits perfectly with not-so-deep architecture of LeNet. Also, advantageous here is the use of modern techniques such as using ReLU for activations and dropout regularization that mask some of the shorcomings of original LeNet. 
 
 My final model results were as follows:
 
@@ -162,43 +162,112 @@ I selected some signs out of these two videos. To reduce the bias of selection I
 Thier classification results are as follows. Out of 12 signs, 11 were classified correctly ie and accuracy of nearly 91%
 
 
-![alt text][image7]: Images classification by the developed system
+![alt text][image7]: 
 
-Interesting to see that 
+Interesting to see that sign for class 08 (speed limit 120km/h) got missclassified and the right choice does not even feature in top 5 probabilities. It is also worth noting that this sign taken from the web is not very similar to the signs shown in the training data set. This could either either that training data is not sufficiently diverse enough to cover enough possible examples. Or the model that we use is underfitted and does not scale well enough to unseen examples.
 
-#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+Also intersting to note that for the correct predictions the model was quite sure about its choice. In 6 out 11, the top choice was with 100% and for the rest it was in high ninties. 
 
-Here are the results of the prediction:
+Detailed probabilities are presented here.
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+|Image: 08.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 0.456568     |        16 | Vehicles over 3.5 metric tons prohibited|
+|              | 0.276923     |        29 | Bicycles crossing|
+|              | 0.139671     |        20 | Dangerous curve to the right|
+|              | 0.038407     |         3 | Speed limit (60km/h)|
+|              | 0.032404     |        23 | Slippery road|
+
+|Image: 25.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 1.000000     |        25 | Road work|
+|              | 0.000000     |        20 | Dangerous curve to the right|
+|              | 0.000000     |        23 | Slippery road|
+|              | 0.000000     |        11 | Right-of-way at the next intersection|
+|              | 0.000000     |        38 | Keep right|
+
+|Image: 17.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 0.997183     |        17 | No entry|
+|              | 0.002070     |         9 | No passing|
+|              | 0.000740     |        14 | Stop|
+|              | 0.000006     |        34 | Turn left ahead|
+|              | 0.000000     |        35 | Ahead only|
+
+|Image: 18.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 1.000000     |        18 | General caution|
+|              | 0.000000     |        38 | Keep right|
+|              | 0.000000     |        27 | Pedestrians|
+|              | 0.000000     |        26 | Traffic signals|
+|              | 0.000000     |         0 | Speed limit (20km/h)|
+
+|Image: 26.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 0.999974     |        26 | Traffic signals|
+|              | 0.000026     |        18 | General caution|
+|              | 0.000000     |        24 | Road narrows on the right|
+|              | 0.000000     |         4 | Speed limit (70km/h)|
+|              | 0.000000     |        27 | Pedestrians|
+
+|Image: 13.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 1.000000     |        13 | Yield|
+|              | 0.000000     |        25 | Road work|
+|              | 0.000000     |         9 | No passing|
+|              | 0.000000     |        39 | Keep left|
+|              | 0.000000     |        12 | Priority road|
+
+|Image: 36.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 0.999536     |        36 | Go straight or right|
+|              | 0.000369     |        38 | Keep right|
+|              | 0.000077     |         3 | Speed limit (60km/h)|
+|              | 0.000007     |        28 | Children crossing|
+|              | 0.000005     |        35 | Ahead only|
+
+|Image: 14.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 0.999838     |        14 | Stop|
+|              | 0.000084     |        12 | Priority road|
+|              | 0.000026     |         1 | Speed limit (30km/h)|
+|              | 0.000022     |        38 | Keep right|
+|              | 0.000012     |        13 | Yield|
+
+|Image: 22.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 1.000000     |        22 | Bumpy road|
+|              | 0.000000     |        29 | Bicycles crossing|
+|              | 0.000000     |        26 | Traffic signals|
+|              | 0.000000     |        39 | Keep left|
+|              | 0.000000     |        25 | Road work|
+
+|Image: 07.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 0.931789     |         7 | Speed limit (100km/h)|
+|              | 0.068072     |         5 | Speed limit (80km/h)|
+|              | 0.000105     |         2 | Speed limit (50km/h)|
+|              | 0.000016     |         8 | Speed limit (120km/h)|
+|              | 0.000009     |         3 | Speed limit (60km/h)|
+
+|Image: 42.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 1.000000     |        42 | End of no passing by vehicles over 3.5 metric tons|
+|              | 0.000000     |        41 | End of no passing|
+|              | 0.000000     |         5 | Speed limit (80km/h)|
+|              | 0.000000     |        10 | No passing for vehicles over 3.5 metric tons|
+|              | 0.000000     |        12 | Priority road|
+
+|Image: 19.jpg | Probabilities| Classname |Descriptive Name |
+|--------------|--------------|-----------|-----------------|
+|              | 1.000000     |        19 | Dangerous curve to the left|
+|              | 0.000000     |        23 | Slippery road|
+|              | 0.000000     |        24 | Road narrows on the right|
+|              | 0.000000     |         9 | No passing|
+|              | 0.000000     |        21 | Double curve|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
-
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
-
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
-
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
 
 
-For the second image ... 
-
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
 
